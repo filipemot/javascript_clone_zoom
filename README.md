@@ -4,7 +4,7 @@ Clone do zoom criado na Semana Expert 2021 - Erick Wendel
 
 ## Aula 2
 
-Biblioteca utiliza PeerJS
+Conceitos de comunicação per to per utilizando a biblioteca utiliza PeerJS
 
 **Stun Serve**
 
