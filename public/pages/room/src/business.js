@@ -20,7 +20,7 @@ class Business {
     }
     async _init() {
         this.view.configureRecordButton(this.onRecordPressed.bind(this))
-
+        this.view.configureLeaveButton(this.onLeavePressed.bind(this))
 
         this.currentStream = await this.media.getCamera()
         this.socket = this.socketBuilder
@@ -47,7 +47,7 @@ class Business {
             recorderInstance.startRecording()
         }
 
-        const isCurrentId = false
+        const isCurrentId = userId === this.currentPeer.id
         this.view.renderVideo({
             userId,
             stream,
@@ -72,6 +72,8 @@ class Business {
             }
 
             this.view.setParticipants(this.peers.size)
+            this.stopRecording(userId)
+
             this.view.removeVideoElement(userId)
         }
     }
@@ -98,6 +100,11 @@ class Business {
     onPeerStreamReceived () {
         return (call, stream ) => {
             const callerId = call.peer 
+            if(this.peers.has(callerId)) {
+                console.log('calling twice, ignoring second call...', callerId)
+                return;
+            }
+            
             this.addVideoStream(callerId, stream)
             this.peers.set(callerId, { call })
             
@@ -107,6 +114,12 @@ class Business {
 
     onPeerCallError () {
         return (call, error) => {
+            if(this.peers.has(userId)) {
+                this.peers.get(userId).call.close()
+                this.peers.delete(userId)
+            }
+            this.view.setParticipants(this.peers.size)
+
             console.log('an call error ocurred!', error)
             this.view.removeVideoElement(call.peer)
         }
@@ -144,7 +157,19 @@ class Business {
             if(!isRecordingActive)  continue;
 
             await rec.stopRecording()
-
+            this.playRecordings(key)
         }
+    }
+
+    playRecordings(userId) {
+        const user = this.usersRecordings.get(userId)
+        const videosURLs = user.getAllVideoURLs()
+        videosURLs.map(url => {
+            this.view.renderVideo({ url, userId })
+        })
+    }
+
+    onLeavePressed() {
+        this.usersRecordings.forEach((value, key) => value.download())
     }
 }

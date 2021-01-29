@@ -4,11 +4,14 @@ const onload = () => {
   console.log('this is the room', room)
 
   const socketUrl = 'http://localhost:3000'
+  // const socketUrl = 'https://boiling-eyrie-34493.herokuapp.com'
   const socketBuilder = new SocketBuilder({ socketUrl })
 
   const peerConfig = Object.values({
     id: undefined,
     config: {
+      // host: 'frozen-river-53219.herokuapp.com',
+      // secure: true,
       port: 9000,
       host: 'localhost',
       path: '/'
