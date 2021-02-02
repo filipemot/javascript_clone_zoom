@@ -1,10 +1,10 @@
+
 # Clone do Zoom
 
 Clone do zoom criado na Semana Expert 2021 - Erick Wendel
 
-## Aula 2
-
-Conceitos de comunicação per to per utilizando a biblioteca utiliza PeerJS
+**Conceitos Aprendidos**
+- Conceitos de comunicação per to per utilizando a biblioteca utiliza PeerJS
 
 **Stun Serve**
 
@@ -17,6 +17,8 @@ Rota mais curta de comunicação entre os clientes
 **Turn Server**
 
 Garantir o tráfego de mensagens e streams como contigência
+
+- Gravação com o Media Record
 
 
 ## Rodar as dependências
